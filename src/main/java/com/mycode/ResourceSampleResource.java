@@ -2,10 +2,17 @@ package com.mycode;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class ResourceSampleResource {
 
+	@Size(min = 5, max=10)
 	String type;
+	
+	@Past
 	Date purchasedate;
+	
 	public String getType() {
 		return type;
 	}

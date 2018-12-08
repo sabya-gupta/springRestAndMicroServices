@@ -4,7 +4,10 @@ package com.mycode;
 import java.net.URI;
 import java.util.Date;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +42,9 @@ public class ControllerMyController {
 	
 	
 	@PostMapping(path="/sampleResource")
-	public ResponseEntity getSampleResource(@RequestBody ResourceSampleResource sr) {
+	public ResponseEntity getSampleResource(@Valid @RequestBody ResourceSampleResource sr) {
+		
+		System.out.println(sr.getType());
 		
 		if(sr.getType().equalsIgnoreCase("human")) {
 			return ResponseEntity.unprocessableEntity().build();
