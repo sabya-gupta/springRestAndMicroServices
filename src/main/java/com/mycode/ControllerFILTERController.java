@@ -2,9 +2,11 @@ package com.mycode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +36,24 @@ public class ControllerFILTERController {
 		List<ResourceDYNAMIC_FILTERResource> retList = new ArrayList<>();
 
 		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("value1", "value2");
+		FilterProvider filterProvider = new SimpleFilterProvider().addFilter("ResourceDYNAMIC_FILTERResourceFilter",
+				filter);
+
+		for (int i = 0; i < 5; i++) {
+			ResourceDYNAMIC_FILTERResource resourceObject = new ResourceDYNAMIC_FILTERResource("value1" + i,
+					"value2" + i, "value3" + i, "value4" + i, "value5" + i);
+			retList.add(resourceObject);
+		}
+		MappingJacksonValue mapping = new MappingJacksonValue(retList);
+		mapping.setFilters(filterProvider);
+		return mapping;
+	}
+
+	@GetMapping(path = "/dynamicfileterresources/{field}")
+	public MappingJacksonValue getAllFilteredByparam(@PathVariable String field) {
+		List<ResourceDYNAMIC_FILTERResource> retList = new ArrayList<>();
+
+		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(field.split(","));
 		FilterProvider filterProvider = new SimpleFilterProvider().addFilter("ResourceDYNAMIC_FILTERResourceFilter",
 				filter);
 
